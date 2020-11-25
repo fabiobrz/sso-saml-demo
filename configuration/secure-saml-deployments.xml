@@ -1,0 +1,31 @@
+
+<secure-deployment name="sso-saml-demo.war">
+    <SP entityID="app-profile-saml"
+        sslPolicy="EXTERNAL"
+        logoutPage="./index.jsp">
+
+        <Keys>
+            <KeyStore file= "/etc/eap-secret-volume/keystore-saml.jks" password="password">
+                <PrivateKey alias="sso-saml-demo" password="password"/>
+                <Certificate alias="sso-saml-demo"/>
+            </KeyStore>
+        </Keys>
+        <IDP entityID="idp"
+             signatureAlgorithm="RSA_SHA256"
+             signatureCanonicalizationMethod="http://www.w3.org/2001/10/xml-exc-c14n#">
+            <SingleSignOnService signRequest="true"
+                                 validateResponseSignature="true"
+                                 validateAssertionSignature="false"
+                                 requestBinding="POST"
+                                 bindingUrl="https://sso-jbqa-14181-fb.apps.pkremens-20uw.eapqe.psi.redhat.com/auth/realms/saml-demo/protocol/saml"/>
+            <SingleLogoutService signRequest="true"
+                                 signResponse="true"
+                                 validateRequestSignature="true"
+                                 validateResponseSignature="true"
+                                 requestBinding="POST"
+                                 responseBinding="POST"
+                                 postBindingUrl="https://sso-jbqa-14181-fb.apps.pkremens-20uw.eapqe.psi.redhat.com/auth/realms/saml-demo/protocol/saml"
+                                 redirectBindingUrl="https://sso-jbqa-14181-fb.apps.pkremens-20uw.eapqe.psi.redhat.com/auth/realms/saml-demo/protocol/saml"/>
+        </IDP>
+    </SP>
+</secure-deployment>
